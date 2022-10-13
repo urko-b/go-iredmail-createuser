@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
-
 	"iredmail-create-email-account/controllers"
 	"iredmail-create-email-account/middleware"
 	"iredmail-create-email-account/pkg/remote_ssh"
+	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -24,14 +24,17 @@ var cfg struct {
 }
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal(
-			fmt.Errorf("environment variable ENV is empty and an error occurred while loading the .env file"),
-		)
-	}
+	env := os.Getenv("env")
 
-	err = envconfig.Process("", &cfg)
+	if env != "prod" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatal(
+				fmt.Errorf("environment variable ENV is empty and an error occurred while loading the .env file"),
+			)
+		}
+	}
+	err := envconfig.Process("", &cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,7 +47,10 @@ func main() {
 	}
 
 	router := gin.Default()
-	router.SetTrustedProxies(cfg.TrustedProxies)
+	err = router.SetTrustedProxies(cfg.TrustedProxies)
+	if err != nil {
+		log.Fatal(err)
+	}
 	router.Use(middleware.Json())
 	router.Use(middleware.Error(cfg.SupportEmail))
 
