@@ -1,12 +1,11 @@
 package controllers
 
 import (
-	"net/http"
-
 	"iredmail-create-email-account/pkg/create_user"
 	"iredmail-create-email-account/pkg/public_error"
 	"iredmail-create-email-account/pkg/remote_ssh"
 	"iredmail-create-email-account/pkg/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -47,15 +46,9 @@ func (ctrl UserController) CreateUser(ctx *gin.Context) {
 }
 
 func wrapAbortWithError(ctx *gin.Context, err error) {
-	ginErr := ctx.AbortWithError(http.StatusInternalServerError, err)
-	if ginErr != nil {
-		panic(ginErr)
-	}
+	ctx.AbortWithError(http.StatusInternalServerError, err) //nolint: errcheck
 }
 
 func wrapAbortStatusCodeWithError(ctx *gin.Context, status_code int, err error) {
-	ginErr := ctx.AbortWithError(status_code, err)
-	if ginErr != nil {
-		panic(ginErr)
-	}
+	ctx.AbortWithError(status_code, err) //nolint: errcheck
 }
