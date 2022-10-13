@@ -1,0 +1,75 @@
+run:
+  timeout: 3m
+
+issues:
+  max-issues-per-linter: 1000
+  max-same-issues: 1000
+
+linters:
+  enable-all: true
+  disable:
+    - funlen
+    - cyclop
+    - gochecknoglobals
+    - exhaustivestruct
+    - maligned
+    - scopelint
+    - golint
+    - interfacer
+    - gomnd
+    - gomoddirectives
+    - ifshort # it takes a huge amount of time to execute
+    - varnamelen # it's very nitpicking
+    - ireturn # we're forced to due to the cdk
+    - godox
+    - maintidx
+    - misspell
+    - nolintlint # why not? (use config instead?)
+    # we should enable at some point
+    - deadcode
+    - dupl
+    - dogsled
+    - forbidigo
+    - gochecknoinits
+    - gocognit
+    - nonamedreturns
+    - interfacebloat
+    - contextcheck
+    - goconst
+    - gocritic
+    - gosec
+    - gocyclo
+    - lll
+    - revive
+    - prealloc
+    - nestif
+    - nakedret
+    - unconvert
+    - wsl
+    - containedctx
+    - errchkjson
+    - govet
+    - ineffassign
+    - nilerr
+    - nilnil
+    - nlreturn
+    - noctx
+    - paralleltest
+    - stylecheck
+    - testpackage
+    - wrapcheck
+    - unused
+    - bodyclose
+    - varcheck
+    - errorlint
+    - forcetypeassert
+    - gci
+    - tagliatelle
+    - goerr113
+    - exhaustive
+    - exhaustruct
+    - nosnakecase # deprecated (since v1.48.1)
+    - structcheck # deprecated (since v1.49.0)
+    - rowserrcheck
+    - sqlclosecheck
+    - wastedassign
