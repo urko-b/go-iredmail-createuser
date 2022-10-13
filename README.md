@@ -22,7 +22,7 @@ REMOTE_KEY_PATH=/home/user/.ssh/remote_key
 REMOTE_PORT=22
 API_PORT=4230
 SUPPORT_EMAIL=support@myremoteserver.com
-TRUSTED_PROXIES="*"
+TRUSTED_PROXIES="127.0.0.1"
 ```
 
 ## Run
