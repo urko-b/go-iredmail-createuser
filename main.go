@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+
 	"iredmail-create-email-account/controllers"
 	"iredmail-create-email-account/middleware"
 	"iredmail-create-email-account/pkg/remote_ssh"
-	"log"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -20,11 +21,11 @@ var cfg struct {
 	RemotePort     string   `required:"true" split_words:"true"`
 	ApiPort        string   `required:"true" split_words:"true"`
 	SupportEmail   string   `required:"true" split_words:"true"`
-	TrustedProxies []string `required:"true" split_words:"true"`
+	TrustedProxies []string `split_words:"true"`
 }
 
 func main() {
-	env := os.Getenv("env")
+	env := os.Getenv("ENV")
 
 	if env != "prod" {
 		err := godotenv.Load(".env")
@@ -47,9 +48,12 @@ func main() {
 	}
 
 	router := gin.Default()
-	err = router.SetTrustedProxies(cfg.TrustedProxies)
-	if err != nil {
-		log.Fatal(err)
+
+	if len(cfg.TrustedProxies) > 0 {
+		err = router.SetTrustedProxies(cfg.TrustedProxies)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	router.Use(middleware.Json())
 	router.Use(middleware.Error(cfg.SupportEmail))
